@@ -2,7 +2,7 @@
 
 ## Goals
 
-The overarching goal of this project is to provide a free, open source Systems Administration course
+The overarching goal of this project is to provide a free, open source Systems Automation course
 predicated on the work produced by Scott Champine, an experienced and skilled Senior Systems Engineer.
 
 Scott has over 20+ years administering and engineering Linux systems across a broad variety of
