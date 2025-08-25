@@ -1,7 +1,7 @@
 <div class="flex-container">
         <img src="https://github.com/ProfessionalLinuxUsersGroup/img/blob/main/Assets/Logos/ProLUG_Round_Transparent_LOGO.png?raw=true" width="64" height="64"></img>
     <p>
-        <h1>Contributing to the ProLUG Linux Course Books</h1>
+        <h1>Contributing to the ProLUG Linux Sysadmin Course Book</h1>
     </p>
 </div>
 
@@ -128,7 +128,7 @@ Pull requests with substantial merge conflicts may be rejected.
 You can do this from the GitHub web UI easily with the `Sync Fork` button. If you want to do this from the terminal, you can add a new `git remote` called `upstream`.
 
 ```bash
-git remote add upstream https://github.com/ProfessionalLinuxUsersGroup/pcae.git
+git remote add upstream https://github.com/ProfessionalLinuxUsersGroup/lac.git
 ```
 
 Then, to sync your local fork with the original repo, do a `git pull` from the `upstream` remote.
@@ -157,14 +157,14 @@ visibility and collaboration before merging changes.
 
 ### Create a Fork
 
-Go to the [original repository link](https://github.com/ProfessionalLinuxUsersGroup/pcae).
+Go to the [original repository link](https://github.com/ProfessionalLinuxUsersGroup/lac).
 Click on "Fork" on the top right.
 Now you'll have your own version of the repository that you can clone.
 
 ```bash
-git clone git@github.com:YOUR_USERNAME/pcae.git
+git clone git@github.com:YOUR_USERNAME/lac.git
 # Or, with https:
-git clone https://github.com/YOUR_USERNAME/pcae.git
+git clone https://github.com/YOUR_USERNAME/lac.git
 ```
 
 ### Clone the Fork to your Local Machine
@@ -172,7 +172,7 @@ git clone https://github.com/YOUR_USERNAME/pcae.git
 Then you'll need to clone your fork down to your local machine in order to work on it.
 
 ```bash
-git clone git@github.com:yourname/pcae.git
+git clone git@github.com:yourname/lac.git
 ```
 
 ### Create a New Branch
@@ -289,7 +289,7 @@ for free, so there is only one person who is able to merge pull requests at the 
 
 ### Create a Pull Request
 
-Now you'll be able to go to the [original repository link](https://github.com/ProfessionalLinuxUsersGroup/pcae) and go to the "Pull Requests" tab and create a new pull request.
+Now you'll be able to go to the [original repository link](https://github.com/ProfessionalLinuxUsersGroup/lac) and go to the "Pull Requests" tab and create a new pull request.
 Select your branch `unit1-worksheet`, and create a description and mention an issue by number (e.g., `#5`).
 
 ## Supporting Material
@@ -298,11 +298,11 @@ Select your branch `unit1-worksheet`, and create a description and mention an is
 
 Below are links to the necessary materials to build out the course templates:
 
-- Look over the [template pages wiki](https://github.com/ProfessionalLinuxUsersGroup/pcae/wiki), or directly here:
-  - Pages: [intro](https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/ref/intro.md),
-    [bonus](https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/ref/ub.md),
-    [lab](https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/ref/ulab.md),
-    [worksheet](https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/ref/uws.md)
+- Look over the [template pages wiki](https://github.com/ProfessionalLinuxUsersGroup/lac/wiki), or directly here:
+  - Pages: [intro](https://github.com/ProfessionalLinuxUsersGroup/lac/blob/main/ref/intro.md),
+    [bonus](https://github.com/ProfessionalLinuxUsersGroup/lac/blob/main/ref/ub.md),
+    [lab](https://github.com/ProfessionalLinuxUsersGroup/lac/blob/main/ref/ulab.md),
+    [worksheet](https://github.com/ProfessionalLinuxUsersGroup/lac/blob/main/ref/uws.md)
 
 Ancillary unit videos provided by Scott:
 
