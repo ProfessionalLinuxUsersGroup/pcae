@@ -1,0 +1,14 @@
+[book]
+authors = []
+language = "en"
+multilingual = false
+src = "src"
+title = "Linux Administration Course"
+
+[output.html]
+site-url = "/lac/"
+default-theme = "navy"
+no-section-label = true
+git-repository-url = "https://github.com/ProfessionalLinuxUsersGroup/lac"
+edit-url-template = "https://github.com/ProfessionalLinuxUsersGroup/lac/issues/new"
+git-repository-icon = "fa-github"
