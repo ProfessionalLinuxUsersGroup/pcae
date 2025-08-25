@@ -17,7 +17,7 @@ technologies as Ansible, containers, bash scripts, and more.
 
 ---
 
-The ProLUG Security Course (psc) utilizes [mdBook](https://github.com/rust-lang/mdBook)
+The ProLUG Automation Engineering Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
 (markdown Book), a friendly and popular markdown utility that quickly exports
 files and web structures for documentation or general website use cases.
 
@@ -57,7 +57,7 @@ environments if things go awry.
 
 ### Ansible-Playbook
 
-<https://github.com/ProfessionalLinuxUsersGroup/psc/blob/main/src/assets/deploy/ansible-playbook.yml>
+<https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/src/assets/deploy/ansible-playbook.yml>
 
 To use this playbook, your machine(s)/containers must be configured correctly for Ansible.
 If you don't know the requirements to administer a machine via Ansible documentation
@@ -99,10 +99,10 @@ apt-get update
 apt-get -y install apache2 git gcc rustc-1.80 cargo-1.80
 cargo-1.80 install --locked mdbook@0.4.48
 systemctl enable --now apache2
-cd && git clone https://github.com/ProfessionalLinuxUsersGroup/psc
+cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae
 echo 'PATH=$PATH:~/.cargo/bin/' | tee -a ~/.profile
 export PATH=$PATH:~/.cargo/bin/ && echo $PATH | grep cargo
-cd ~/psc && mdbook build -d /var/www/html
+cd ~/pcae && mdbook build -d /var/www/html
 systemctl restart apache2
 ```
 
@@ -114,17 +114,17 @@ dnf update
 dnf install -y httpd git gcc rust cargo
 cargo install --locked mdbook
 systemctl enable --now httpd
-cd && git clone https://github.com/ProfessionalLinuxUsersGroup/psc
+cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae
 echo 'PATH=$PATH:~/.cargo/bin/' | tee -a ~/.bash_profile
 export PATH=$PATH:~/.cargo/bin/ && echo $PATH | grep cargo
-cd ~/psc && mdbook build -d /var/www/html
+cd ~/pcae && mdbook build -d /var/www/html
 systemctl restart httpd
 ```
 
 #### From here you can use such commands from your localhost to implement changes:
 
 ```bash
-cd {working psc directory} #for example: /root/psc or ~/psc
+cd {working pcae directory} #for example: /root/pcae or ~/pcae
 mdbook build -d /var/www/html
 systemctl restart {httpd or apache}
 ```
@@ -141,15 +141,15 @@ From there you should be able to see any changes you have made are reflected.
 these commands will need to utilize absolute paths.
 
 ```bash
-scp {working directory}/{targeted document} {TARGET_IP}:/root/psc/src/{targeted document}
-ssh {TARGET_IP} "cd /root/psc && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
+scp {working directory}/{targeted document} {TARGET_IP}:/root/pcae/src/{targeted document}
+ssh {TARGET_IP} "cd /root/pcae && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
 ```
 
 An example of the workflow after making changes:
 
 ```bash
-scp src/development.md 172.16.15.8:/root/psc/src/
-ssh 172.16.15.8 "cd /root/psc && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
+scp src/development.md 172.16.15.8:/root/pcae/src/
+ssh 172.16.15.8 "cd /root/pcae && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
 ```
 
 <img src="./assets/images/flow.png"></img>
