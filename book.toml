@@ -1,0 +1,14 @@
+[book]
+authors = []
+language = "en"
+multilingual = false
+src = "src"
+title = "Linux Automation Engineering Course"
+
+[output.html]
+site-url = "/pcae/"
+default-theme = "navy"
+no-section-label = true
+git-repository-url = "https://github.com/ProfessionalLinuxUsersGroup/pcae"
+edit-url-template = "https://github.com/ProfessionalLinuxUsersGroup/pcae/issues/new"
+git-repository-icon = "fa-github"
