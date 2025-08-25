@@ -11,15 +11,15 @@ are provided below. These guidelines are by no means a requirement or the only
 set of procedures to locally develop on this project.
 
 The examples, code, and commands provided below were developed using such
-technologies as Ansible, containers, bash scripts, and more.
+technologies as containers, bash scripts, and more.
 
 ## Build Dependencies
 
 ---
 
-The ProLUG Automation Engineering Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
-(markdown Book), a friendly and popular markdown utility that quickly exports
-files and web structures for documentation or general website use cases.
+The ProLUG Linux Administration Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
+(markdown Book), a friendly and popular markdown utility that quickly exports static web files for
+documentation or general website use cases.
 
 Utilizing mdBook this course then deploys the exported web structure to a
 [Git Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and runner that then produces an easily navigable website.
@@ -35,97 +35,69 @@ Below is the current workflow that deploys the Git Page for the course:
 To achieve this deployment locally the following environment and dependencies are
 required:
 
-<dl>
-    <dt>1. A localhost, this could be a container, virtual machine, or local machine</dt>
-    <dt>2. The following packages installed on such machine:</dt>
-    <dd>- httpd or apache</dd>
-    <dd>- git</dd>
-    <dd>- gcc</dd>
-    <dd>- rust</dd>
-    <dd>- cargo</dd>
-    <dt>3. And a clone of a ProLUG repository</dt>
-</dl>
+1. A localhost, this could be a container, virtual machine, or local machine
+2. The following packages installed on such machine:
+
+   - httpd or apache
+   - git
+   - mdBook binary
+
+3. And a clone of a ProLUG repository
 
 ## Building, Deploying, and Developing Locally
 
 ---
 
-Below is a set of scripts and Ansible-Playbooks that can quickly achieve this
-environment in an automated fashion. They are only designed to "standup" these
-machines, they are otherwise unintelligent and will not manage or cleanup
-environments if things go awry.
+Below is a set of scripts that can quickly achieve this environment in an automated fashion.
 
-### Ansible-Playbook
+These commands assume a `root` user. This script will update and upgrade host packages to
+their latest versions, install git, curl, tar, gzip, grep and their dependencies if they aren't present,
+attempt to pull down the latest fully compiled `mdbook` binary from the official mdBook GitHub repository, boot
+up the local web server, process and produce the necessary .html files from the pcae source files, deploy
+the website and necessary cleanup operations.
 
-<https://github.com/ProfessionalLinuxUsersGroup/pcae/blob/main/src/assets/deploy/ansible-playbook.yml>
-
-To use this playbook, your machine(s)/containers must be configured correctly for Ansible.
-If you don't know the requirements to administer a machine via Ansible documentation
-has been provided below.
-
-<div class = warning>
-This playbook attempts to install and initialize dependencies based on APT and DNF package managers only.
-</div>
-
-Getting started with Ansible:  
-<https://docs.ansible.com/ansible/latest/getting_started/index.html>
-
-### Bash Script
-
-Many of these commands assume a root user.
-
-Export and execute this script to your machine/container.
-
-<div class=warning>
-
-Dependencies can total over ~500MB compressed and 1-2GB unpackaged or more.
-
-Debian containers/machines will require building many of these packages from
-source or adding additional repositories as Debian has a far slower package
-version adoption rate for stability, thus is not recommended for deploying mdBook.
-
-</div>
-
-These scripts will take up to 5-7 minutes to download the necessary dependencies
-and compile mdBook depending on the machine/container's capabilities.
-
-Tested with Rocky 9 and Ubuntu 24.04 Containers.
+Outside of system packages all files will be localized to the `/root/pcae` directory on the container or machine.
 
 APT frontends:
 
 ```bash
-#!/usr/bin/env bash
-apt-get update
-apt-get -y install apache2 git gcc rustc-1.80 cargo-1.80
-cargo-1.80 install --locked mdbook@0.4.48
+#!/bin/bash
+apt-get -y install apache2 git curl tar gzip grep
+cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae && cd $HOME/pcae
+VERSION=$(curl -sL https://github.com/rust-lang/mdBook/releases/latest | grep -Po -m 1 'v(?:\d\.){2}\d+')
+curl -sLO "https://github.com/rust-lang/mdBook/releases/download/${VERSION}/mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+tar xfz mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
+rm -f mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
 systemctl enable --now apache2
-cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae
-echo 'PATH=$PATH:~/.cargo/bin/' | tee -a ~/.profile
-export PATH=$PATH:~/.cargo/bin/ && echo $PATH | grep cargo
-cd ~/pcae && mdbook build -d /var/www/html
+$PWD/mdbook build -d /var/www/html
 systemctl restart apache2
+unset VERSION
 ```
 
 DNF frontends:
 
 ```bash
-#!/usr/bin/env bash
-dnf update
-dnf install -y httpd git gcc rust cargo
-cargo install --locked mdbook
+#!/bin/bash
+dnf install -y httpd git curl tar gzip grep
+cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae && cd $HOME/pcae
+VERSION=$(curl -sL https://github.com/rust-lang/mdBook/releases/latest | grep -Po -m 1 'v(?:\d\.){2}\d+')
+curl -sLO "https://github.com/rust-lang/mdBook/releases/download/${VERSION}/mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+tar xfz mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
+rm -f mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
 systemctl enable --now httpd
-cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae
-echo 'PATH=$PATH:~/.cargo/bin/' | tee -a ~/.bash_profile
-export PATH=$PATH:~/.cargo/bin/ && echo $PATH | grep cargo
-cd ~/pcae && mdbook build -d /var/www/html
+$PWD/mdbook build -d /var/www/html
 systemctl restart httpd
+unset VERSION
 ```
+
+The ProLUG Linux Administration Course website should now be available from your
+web browser either at http://localhost or its designated IP address.
 
 #### From here you can use such commands from your localhost to implement changes:
 
 ```bash
 cd {working pcae directory} #for example: /root/pcae or ~/pcae
-mdbook build -d /var/www/html
+$HOME/pcae/mdbook build -d /var/www/html
 systemctl restart {httpd or apache}
 ```
 
@@ -142,14 +114,14 @@ these commands will need to utilize absolute paths.
 
 ```bash
 scp {working directory}/{targeted document} {TARGET_IP}:/root/pcae/src/{targeted document}
-ssh {TARGET_IP} "cd /root/pcae && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
+ssh {TARGET_IP} "cd /root/pcae && /root/pcae/mdbook build -d /var/www/html && systemctl restart httpd"
 ```
 
 An example of the workflow after making changes:
 
 ```bash
 scp src/development.md 172.16.15.8:/root/pcae/src/
-ssh 172.16.15.8 "cd /root/pcae && ~/.cargo/bin/mdbook build -d /var/www/html && systemctl restart httpd"
+ssh 172.16.15.8 "cd /root/pcae && /root/pcae/mdbook build -d /var/www/html && systemctl restart httpd"
 ```
 
 <img src="./assets/images/flow.png"></img>
