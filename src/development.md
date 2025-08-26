@@ -17,7 +17,7 @@ technologies as Ansible, containers, bash scripts, and more.
 
 ---
 
-The ProLUG Security Course (psc) utilizes [mdBook](https://github.com/rust-lang/mdBook)
+The ProLUG Automation Engineering Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
 (markdown Book), a friendly and popular markdown utility that quickly exports
 files and web structures for documentation or general website use cases.
 
