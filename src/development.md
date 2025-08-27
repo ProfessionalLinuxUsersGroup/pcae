@@ -17,7 +17,7 @@ technologies as containers, bash scripts, and more.
 
 ---
 
-The ProLUG Linux Administration Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
+The ProLUG Linux Automation Engineering Course (pcae) utilizes [mdBook](https://github.com/rust-lang/mdBook)
 (markdown Book), a friendly and popular markdown utility that quickly exports static web files for
 documentation or general website use cases.
 
@@ -62,16 +62,15 @@ APT frontends:
 
 ```bash
 #!/bin/bash
-apt-get -y install apache2 git curl tar gzip grep
-cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae && cd $HOME/pcae
-VERSION=$(curl -sL https://github.com/rust-lang/mdBook/releases/latest | grep -Po -m 1 'v(?:\d\.){2}\d+')
-curl -sLO "https://github.com/rust-lang/mdBook/releases/download/${VERSION}/mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-tar xfz mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
-rm -f mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
+apt-get update && apt-get -y install apache2 git curl tar gzip grep
+cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae && cd "$HOME"/pcae
+VERSION="$(curl -sL https://github.com/rust-lang/mdBook/releases/latest | grep -Po -m 1 'v(?:\d\.){2}\d+')"
+curl -sLO "https://github.com/rust-lang/mdBook/releases/download/"$VERSION"/mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz"
+tar xfz mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz
+rm -f mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz
 systemctl enable --now apache2
-$PWD/mdbook build -d /var/www/html
+"$PWD"/mdbook build -d /var/www/html
 systemctl restart apache2
-unset VERSION
 ```
 
 DNF frontends:
@@ -81,13 +80,12 @@ DNF frontends:
 dnf install -y httpd git curl tar gzip grep
 cd && git clone https://github.com/ProfessionalLinuxUsersGroup/pcae && cd $HOME/pcae
 VERSION=$(curl -sL https://github.com/rust-lang/mdBook/releases/latest | grep -Po -m 1 'v(?:\d\.){2}\d+')
-curl -sLO "https://github.com/rust-lang/mdBook/releases/download/${VERSION}/mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-tar xfz mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
-rm -f mdbook-${VERSION}-x86_64-unknown-linux-gnu.tar.gz
+curl -sLO "https://github.com/rust-lang/mdBook/releases/download/"$VERSION"/mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz"
+tar xfz mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz
+rm -f mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz
 systemctl enable --now httpd
-$PWD/mdbook build -d /var/www/html
+"$PWD"/mdbook build -d /var/www/html
 systemctl restart httpd
-unset VERSION
 ```
 
 The ProLUG Linux Administration Course website should now be available from your
@@ -123,5 +121,3 @@ An example of the workflow after making changes:
 scp src/development.md 172.16.15.8:/root/pcae/src/
 ssh 172.16.15.8 "cd /root/pcae && /root/pcae/mdbook build -d /var/www/html && systemctl restart httpd"
 ```
-
-<img src="./assets/images/flow.png"></img>
