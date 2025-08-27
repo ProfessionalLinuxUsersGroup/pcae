@@ -87,7 +87,6 @@ rm -f mdbook-"$VERSION"-x86_64-unknown-linux-gnu.tar.gz
 systemctl enable --now httpd
 "$PWD/mdbook" build -d /var/www/html
 systemctl restart httpd
-unset VERSION
 ```
 
 The ProLUG Linux Administration Course website should now be available from your
